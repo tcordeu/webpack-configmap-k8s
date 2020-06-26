@@ -21,9 +21,23 @@ resource "kubernetes_deployment" "webapp" {
       }
 
       spec {
+        volume {
+          name = "server"
+          config_map {
+            name = kubernetes_config_map.nginx_server.metadata[0].name
+          }
+        }
+
         container {
           name  = "nginx"
           image = "nginx:1.19.0-alpine"
+
+          volume_mount {
+            name       = "server"
+            mount_path = "/etc/nginx/sites-available"
+            sub_path   = "default"
+            read_only  = true
+          }
 
           port {
             container_port = 80

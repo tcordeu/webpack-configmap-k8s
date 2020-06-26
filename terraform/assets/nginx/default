@@ -1,0 +1,26 @@
+server {
+    listen 80;
+
+    root /var/www/webapp;
+
+    index index.html;
+
+    location ~* \.html$ {
+        add_header Cache-Control "no-store";
+    }
+
+    location /static {
+        expires 1y;
+        add_header Cache-Control "public";
+
+        try_files $uri =404;
+    }
+
+    location /healthz {
+        return 200;
+    }
+
+    location / {
+        try_files $uri /index.html;
+    }
+}
