@@ -13,8 +13,8 @@ resource "kubernetes_service" "webapp" {
 
     port {
       protocol    = "TCP"
-      port        = kubernetes_deployment.webapp.spec.template.spec.container[0].port[0].container_port
-      target_port = kubernetes_deployment.webapp.spec.template.spec.container[0].port[0].container_port
+      port        = kubernetes_deployment.webapp.spec[0].template[0].spec[0].container[0].port[0].container_port
+      target_port = kubernetes_deployment.webapp.spec[0].template[0].spec[0].container[0].port[0].container_port
       name        = "http"
     }
 
