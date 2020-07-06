@@ -28,6 +28,27 @@ resource "kubernetes_deployment" "webapp" {
           }
         }
 
+        volume {
+          name = "static-js"
+          config_map {
+            name = kubernetes_config_map.webapp_static_js.metadata[0].name
+          }
+        }
+
+        volume {
+          name = "static-css"
+          config_map {
+            name = kubernetes_config_map.webapp_static_css.metadata[0].name
+          }
+        }
+
+        volume {
+          name = "static-media"
+          config_map {
+            name = kubernetes_config_map.webapp_static_media.metadata[0].name
+          }
+        }
+
         container {
           name  = "nginx"
           image = "nginx:1.19.0-alpine"
@@ -35,6 +56,24 @@ resource "kubernetes_deployment" "webapp" {
           volume_mount {
             name       = "server"
             mount_path = "/etc/nginx/conf.d"
+            read_only  = true
+          }
+
+          volume_mount {
+            name       = "static-js"
+            mount_path = "/var/www/webapp/static/js"
+            read_only  = true
+          }
+
+          volume_mount {
+            name       = "static-css"
+            mount_path = "/var/www/webapp/static/css"
+            read_only  = true
+          }
+
+          volume_mount {
+            name       = "static-media"
+            mount_path = "/var/www/webapp/static/media"
             read_only  = true
           }
 
