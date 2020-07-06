@@ -1,11 +1,12 @@
 # Webpack deployment on K8s
 
-Show how to deploy a simple webpack application on K8s using configmaps.
+_Show how to deploy a simple webpack application on K8s using configmaps._
 
 ## Problem
 
-The first idea to tackle this deployment might be: _Build a docker container with the assets and serve it with NGINX, simple!_ but there is a problem with this approach, each time you deploy the references to your assets change. Therefore, when the service load-balances your assets requests they may fall in the "old" pods which will produce 404s and, consequently, downtime.
-The general solution to this problem is: _Assets need to be present before the HTML (which has the new references) is updated_. This particular solution is just one approach you could take!
+The first idea to tackle this deployment might be: _build a docker container with the assets and serve it with NGINX, simple!_ but there is a problem with this approach, each time you deploy the references to your assets change. Therefore, when the service load-balances your assets requests they may fall in the "old" pods which will produce 404s and, consequently, downtime.
+
+The general solution to this problem is: _assets need to be present before the HTML (which has the new references) is updated_. This particular solution is just one approach you could take!
 
 ## Solution
 
@@ -16,7 +17,7 @@ static/js <=> webpack-static-js-configmap
 static/css <=> webpack-static-css-configmap
 static/media <=> webpack-static-media-configmap
 ```
-With this structure a deploy consists simply of an update of each configmap with the new assets! Check the [deploy](deploy.sh) script for a simple example. As shown in [Problem](#Problem), **the order in which you update the assets is important** so be careful!.
+With this structure a deploy consists simply of an update of each configmap with the new assets! Check the [deploy](deploy.sh) script for a simple example. As shown in [Problem](#Problem), **the order in which you update the assets is important** so be careful!
 
 ## Synchronization
 
@@ -28,7 +29,7 @@ Even after forcing a sync the update is not guaranteed to be instant, so you sho
 
 ## Caveats
 
-This solution doesn't take into account what happens if a "new" pod receives and old asset request. This is manly due to the fact that those assets are going to be cached by browsers and/or CDNs, but I am open to suggestions to tackle this problem without relying on the cache.
+This solution doesn't take into account what happens if a "new" pod receives and "old" asset request. This is manly due to the fact that those assets are going to be cached by browsers and/or CDNs, but I am open to suggestions to tackle this problem without relying on the cache.
 
 ## Author
 
