@@ -4,6 +4,6 @@ resource "kubernetes_config_map" "nginx_server" {
   }
 
   data = {
-    default = file("${path.module}/assets/nginx/default")
+    "default.conf" = file("${path.module}/assets/nginx/default.conf")
   }
 }

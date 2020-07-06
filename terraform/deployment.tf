@@ -34,8 +34,7 @@ resource "kubernetes_deployment" "webapp" {
 
           volume_mount {
             name       = "server"
-            mount_path = "/etc/nginx/sites-available"
-            sub_path   = "default"
+            mount_path = "/etc/nginx/conf.d"
             read_only  = true
           }
 
