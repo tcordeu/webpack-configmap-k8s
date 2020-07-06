@@ -16,6 +16,10 @@ resource "kubernetes_config_map" "webapp_public" {
   data = {
     "index.html" = file("${path.module}/assets/public/index.html") # Placeholder.
   }
+
+  lifecycle {
+    ignore_changes = [data, binary_data]
+  }
 }
 
 resource "kubernetes_config_map" "webapp_static_js" {
@@ -25,6 +29,10 @@ resource "kubernetes_config_map" "webapp_static_js" {
 
   data = {
     "placeholder" = file("${path.module}/assets/static/js/placeholder.js") # Placeholder.
+  }
+
+  lifecycle {
+    ignore_changes = [data, binary_data]
   }
 }
 
@@ -36,6 +44,10 @@ resource "kubernetes_config_map" "webapp_static_css" {
   data = {
     "placeholder" = file("${path.module}/assets/static/css/placeholder.css") # Placeholder.
   }
+
+  lifecycle {
+    ignore_changes = [data, binary_data]
+  }
 }
 
 resource "kubernetes_config_map" "webapp_static_media" {
@@ -45,5 +57,9 @@ resource "kubernetes_config_map" "webapp_static_media" {
 
   data = {
     "placeholder" = file("${path.module}/assets/static/media/placeholder.svg") # Placeholder.
+  }
+
+  lifecycle {
+    ignore_changes = [data, binary_data]
   }
 }
