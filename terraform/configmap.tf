@@ -8,6 +8,16 @@ resource "kubernetes_config_map" "nginx_server" {
   }
 }
 
+resource "kubernetes_config_map" "webapp_public" {
+  metadata {
+    name = "webapp-public-configmap"
+  }
+
+  data = {
+    "index.html" = file("${path.module}/assets/public/index.html") # Placeholder.
+  }
+}
+
 resource "kubernetes_config_map" "webapp_static_js" {
   metadata {
     name = "webapp-static-js-configmap"

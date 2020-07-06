@@ -29,6 +29,13 @@ resource "kubernetes_deployment" "webapp" {
         }
 
         volume {
+          name = "public"
+          config_map {
+            name = kubernetes_config_map.webapp_public.metadata[0].name
+          }
+        }
+
+        volume {
           name = "static-js"
           config_map {
             name = kubernetes_config_map.webapp_static_js.metadata[0].name
@@ -56,6 +63,12 @@ resource "kubernetes_deployment" "webapp" {
           volume_mount {
             name       = "server"
             mount_path = "/etc/nginx/conf.d"
+            read_only  = true
+          }
+
+          volume_mount {
+            name       = "public"
+            mount_path = "/var/www/webapp"
             read_only  = true
           }
 
